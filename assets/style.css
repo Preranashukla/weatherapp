@@ -2,17 +2,17 @@
 * {
     box-sizing: border-box;
   }
-  
+  #header {
+    text-align: center;
+    background-image: linear-gradient(90deg, #198bdc 0%, #003366 100%);
+}
   /* Tags */
-  h1,
-  h3,
-  h4,
+  h1,h4,
   h5 {
     font-weight: bold;
   }
   
   h1,
-  h3,
   h4,
   h5,
   p {
@@ -24,11 +24,11 @@
       font-size: 2.5rem;
     }
   
-    h3 {
+    h4 {
       font-size: 1.5rem;
     }
   
-    h4 {
+    h5 {
       font-size: 1.2rem;
     }
   }
@@ -86,9 +86,8 @@
   }
   
   /* Forecast Current */
-  #forecast-current .card-header h4 {
+  #forecast-current .card-header h5 {
     font-size: 2rem;
-    margin-bottom: 0;
   }
   
   #forecast-current .card-body .temperature {

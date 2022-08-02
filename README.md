@@ -25,7 +25,7 @@ This project emphasizes the use of using Javascript, Jquery and how manuplate DO
     * Used Asynch and await to handle control of excution of function.
     
     
-![](./assets/Demo.PNG)
+![](./assets/demo.PNG)
 
 
 

@@ -4,19 +4,18 @@ const btnSearch = document.querySelector("#btn-search");
 const searchHistoryEl = document.querySelector("#search-history");
 const searchedCitiesEl = document.querySelector("#searched-cities");
 const btnClearSearch = document.querySelector("#btn-clear-search");
-const forecastCurrentEl = document.querySelector("#forecast-current");
-const forecastCurrentCardEl = document.querySelector("#forecast-current-card");
+const currentForecast = document.querySelector("#forecast-current");
+const currentForecastEl = document.querySelector("#forecast-current-card");
 const forecast5DayEl = document.querySelector("#forecast-5day");
 const forecast5DayCardsEl = document.querySelector("#forecast-5day-cards");
 
 const unitName = {
-    imperial: {
+    weatherEl: {
       windSpeed: "mph",
       temp: "F",
     }
   }
-// VARIABLES
-const keyOpenWeather = "0b4bc08b18d9058d6e168427316c86b4";
+// variables
 let units;
 
 // FUNCTIONS
@@ -48,7 +47,7 @@ async function geocodeCity(city){
   const params = new URLSearchParams({
     q: city,
     limit: 2,
-    appid: keyOpenWeather,
+    appid: "0b4bc08b18d9058d6e168427316c86b4",
   }).toString();
   geoURL.search = params;
 
@@ -88,28 +87,26 @@ async function getWeatherData(latlon){
   }).toString();
   weatherURL.search = params;
 
-  // Call OpenWeather one call API
+  // fetch api
   const response = await fetch(weatherURL);
 
-  // if bad response - throw error and console log in calling function catch
-  // else - convert response to JSON and return
   if (!response.ok) {
     throw response.json();
   }
   return await response.json();
 };
 
-// Update current weather forecast card
+// Update current weather
 function displayForecastCurrent(place, weather,timeStamp){
-  const wthrUnits = unitName.imperial;
+  const wthrUnits = unitName.weatherEl;
 
   // Create current weather forecast card
-  const wthrCurCard = document.createElement("div");
-  wthrCurCard.classList.add("card");
+  const wthrCard = document.createElement("div");
+  wthrCard.classList.add("card");
 
   // Epopulate UV Index color based on value
   let uvWarning;
-  if (weather.uvi <= 4) {
+  if (weather.uvi <= 5) {
     uvWarning = "bg-success text-white";
   } else if (weather.uvi <= 7) {
     uvWarning = "bg-warning text-white";
@@ -118,15 +115,15 @@ function displayForecastCurrent(place, weather,timeStamp){
   }
 
 
-  wthrCurCard.innerHTML = `
-    <header class="card-header bg-info p-0 text-light">
+  wthrCard.innerHTML = `
+    <header class="card-header p-0 text-black">
       <div class="d-flex">
         <img src="http://openweathermap.org/img/wn/${
           weather.weather[0].icon
         }@2x.png" alt="weather condition icon">
         <div class="d-flex flex-column justify-content-center">
-          <h4>${place}</h4>
-          <p>${moment().format("MM/DD/YYYY")}</p>
+          <h5>${place}</h5>
+          <p>(${moment().format("MM/DD/YYYY")})</p>
         </div>
       </div>
     </header>
@@ -152,9 +149,9 @@ function displayForecastCurrent(place, weather,timeStamp){
         </div>
       </div>
     </div>`;
-  forecastCurrentCardEl.innerHTML = "";
-  forecastCurrentCardEl.appendChild(wthrCurCard);
-  forecastCurrentEl.hidden = false;
+    currentForecastEl.innerHTML = "";
+    currentForecastEl.appendChild(wthrCard);
+  currentForecast.hidden = false;
 };
 
 console.log();
@@ -168,7 +165,7 @@ function convertTime(timeStamp){
 var currDate = moment().format("MM/DD/YYYY")
 // Update future weather forecast cards
 function displayForecast5Day(weather){
-  const wthrUnits = unitName.imperial;
+  const wthrUnits = unitName.weatherEl;
 
   // Loop over first five entries daily weather forecast and create weather forecast card
   forecast5DayCardsEl.innerHTML = "";
@@ -179,10 +176,10 @@ function displayForecast5Day(weather){
     let newDate = moment(createdDate).add(1, 'd').format("MM/DD/YYYY");
 
 
-    const wthrFtrCard = document.createElement("div");
-    wthrFtrCard.classList.add("card", "text-light", "bg-info");
+    const weatherForecast = document.createElement("div");
+    weatherForecast.classList.add("card", "text-light", "bg-primary");
 
-    wthrFtrCard.innerHTML = `
+    weatherForecast.innerHTML = `
       <header class="card-header p-0">
         <img src="http://openweathermap.org/img/wn/${
           dayWthr.weather[0].icon
@@ -206,7 +203,7 @@ function displayForecast5Day(weather){
         </div>
       </div>`;
 
-    forecast5DayCardsEl.appendChild(wthrFtrCard);
+    forecast5DayCardsEl.appendChild(weatherForecast);
   }
 
   forecast5DayEl.hidden = false;
@@ -279,7 +276,7 @@ const handleCitySearch = () => {
     inputCityEl.value = "";
     getCityWeather(inputCity);
   } else {
-    displayAlert("Enter a city name to get weather", "warning");
+    displayAlert("Please enter a city name", "warning");
   }
 };
 

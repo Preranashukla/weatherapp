@@ -107,16 +107,17 @@ function displayForecastCurrent(place, weather,timeStamp){
   // Epopulate UV Index color based on value
   let uvWarning;
   if (weather.uvi <= 5) {
-    uvWarning = "bg-success text-white";
+    uvWarning = "success text-black";
   } else if (weather.uvi <= 7) {
-    uvWarning = "bg-warning text-white";
+    uvWarning = "warning text-black";
   } else {
-    uvWarning = "bg-danger text-white";
+    uvWarning = "danger text-black";
   }
 
+  console.log(uvWarning);
 
   wthrCard.innerHTML = `
-    <header class="card-header p-0 text-black">
+    <header class="card-header p-0 text-white bg-primary">
       <div class="d-flex">
         <img src="http://openweathermap.org/img/wn/${
           weather.weather[0].icon
